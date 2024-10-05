@@ -1,0 +1,14 @@
+<div class="add-slot-box">
+  <h1>Add Slot</h1>
+  <form [formGroup]="form" (ngSubmit)="createSlot()">
+    <mat-form-field class="example-full-width">
+      <mat-label>Slot Name</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Brand</mat-label>
+      <input matInput formControlName="brand">
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">Add Slot</button>
+  </form>
+</div>
