@@ -1,0 +1,40 @@
+<div class="chip-list">
+  <div class="component-header">
+      <h1>Slot Machines</h1>
+      <button mat-raised-button color="primary" routerLink="/chip/create" >Add Chip</button>
+  </div>
+  <div class="chip-table">
+    <table mat-table [dataSource]="chipData" class="mat-elevation-z8">
+      <!-- Name Column -->
+      <ng-container matColumnDef="denomination">
+        <th mat-header-cell *matHeaderCellDef> denomination</th>
+        <td mat-cell *matCellDef="let chip"> {{ chip.denomination }} </td>
+      </ng-container>
+
+      <!-- Hall Column with Select Dropdown -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> actions </th>
+        <td mat-cell *matCellDef="let chip">
+          <button mat-button color="primary" [routerLink]="['/chip/edit', chip.id]">
+            Edit Chip
+          </button>
+
+          <button mat-button color="warn" (click)="remove(chip.id)">
+            Delete Chip
+          </button>
+        </td>
+      </ng-container>
+
+
+      <!-- Actions Column with Assign/Remove Button -->
+
+
+      <!-- Table Header -->
+      <tr mat-header-row *matHeaderRowDef="['denomination', 'actions']"></tr>
+
+      <!-- Table Rows -->
+      <tr mat-row *matRowDef="let row; columns: ['denomination', 'actions']"></tr>
+
+    </table>
+  </div>
+</div>

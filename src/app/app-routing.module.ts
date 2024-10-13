@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {LoginGuard} from "./core/guards/login.guard";
 import {AuthGuard} from "./core/guards/auth.guard";
-import {MainLayoutComponent} from "./features/main-layout/main-layout/main-layout.component";
+import {MainLayoutComponent} from "./features/main-layout/main-layout.component";
 
 const routes: Routes = [
   {
@@ -23,6 +23,10 @@ const routes: Routes = [
       {
         path: 'slot',
         loadChildren: () => import('./pages/slot/slot.module').then(m => m.SlotModule),
+      },
+      {
+        path: 'chip',
+        loadChildren: () => import('./pages/chip/chip.module').then(m => m.ChipModule),
       }
     ],
   },
@@ -34,4 +38,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

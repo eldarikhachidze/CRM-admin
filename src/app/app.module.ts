@@ -8,7 +8,8 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthInterceptor} from "./core/interceptors/auth.interceptor";
 import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MainLayoutModule} from "./features/main-layout/main-layout/main-layout.module";
+import {MainLayoutModule} from "./features/main-layout/main-layout.module";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import {MainLayoutModule} from "./features/main-layout/main-layout/main-layout.m
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    MatSnackBarModule,
     MainLayoutModule
   ],
   providers: [

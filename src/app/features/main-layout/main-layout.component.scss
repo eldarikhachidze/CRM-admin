@@ -1,0 +1,19 @@
+.main-layout {
+  background-color: #f5f6fa;
+
+  .sidenav-container {
+    height: 100vh;
+    display: flex;
+
+    .sidenav {
+      width: 250px;
+      background-color: #3f4a59;
+    }
+
+    .main-layout-content {
+      width: calc(100% - 250px);
+      padding: 20px;
+      overflow-y: auto;
+    }
+  }
+}

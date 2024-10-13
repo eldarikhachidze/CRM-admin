@@ -1,0 +1,10 @@
+<div class="add-slot-box">
+  <h1>Add Chip</h1>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field class="example-full-width">
+      <mat-label>Chip denomination</mat-label>
+      <input matInput formControlName="denomination">
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">Add Chip</button>
+  </form>
+</div>

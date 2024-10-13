@@ -1,4 +1,3 @@
-
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
@@ -35,5 +34,34 @@ $CRM-admin-theme: mat.define-light-theme((
 
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+.component-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// src/styles.scss or wherever your global styles are
+.success-snackbar {
+  background-color: #4CAF50; // Green background
+  color: white;
+}
+
+.error-snackbar {
+  background-color: #F44336; // Red background
+  color: white;
+}
+
+.info-snackbar {
+  background-color: #2196F3; // Blue background
+  color: white;
+}
