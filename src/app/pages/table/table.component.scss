@@ -1,0 +1,41 @@
+.table-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  height: 100%;
+
+  .table {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+
+    mat-card {
+      padding: 10px;
+      height: 100%;
+
+      mat-card-header {
+        padding: unset;
+      }
+
+      mat-card-content {
+        padding: unset;
+      }
+
+      .chips-card {
+        width: 100%;
+        height: auto;
+        margin: 5px 0;
+        box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+        -moz-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+        -webkit-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+        -o-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+        -ms-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

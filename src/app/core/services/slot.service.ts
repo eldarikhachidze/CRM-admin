@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BaseService} from "./base.service";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SlotService extends BaseService {
 
-  createSlotMachine(data: any) {
-    return this.post('slot/slot-machines/', data);
+  createSlotMachine(data: any): Observable<any> {
+    return this.post<any>('slot/slot-machines/', data);
   }
 
   getSlotMachines() {
