@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {TableComponent} from "./table.component";
 import {AddOrEditTableComponent} from "./components/add-or-edit-table/add-or-edit-table.component";
 
@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'create',
     component: AddOrEditTableComponent
+  },
+  {
+    path: 'edit/:id',
+    component: AddOrEditTableComponent
   }
 ];
 
@@ -18,4 +22,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class TableRoutingModule { }
+export class TableRoutingModule {
+}

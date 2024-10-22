@@ -10,6 +10,8 @@ import {AddOrEditTableComponent} from './components/add-or-edit-table/add-or-edi
 import {MatTableModule} from "@angular/material/table";
 import {MatCardModule} from "@angular/material/card";
 import {MatChipsModule} from "@angular/material/chips";
+import {MatOptionModule} from "@angular/material/core";
+import {MatSelectModule} from "@angular/material/select";
 
 
 @NgModule({
@@ -27,7 +29,9 @@ import {MatChipsModule} from "@angular/material/chips";
     MatButtonModule,
     MatTableModule,
     MatCardModule,
-    MatChipsModule
+    MatChipsModule,
+    MatOptionModule,
+    MatSelectModule
   ]
 })
 export class TableModule {

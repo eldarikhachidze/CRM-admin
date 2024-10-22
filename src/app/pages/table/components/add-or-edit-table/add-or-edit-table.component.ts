@@ -69,8 +69,8 @@ export class AddOrEditTableComponent implements OnInit {
         this.notificationService.showSuccess('Table created successfully!');
         this.router.navigate(['/table']);
       },
-      error: (err) => {
-        this.notificationService.showError('Error creating table: ' + err.message);
+      error: (error) => {
+        this.notificationService.showError('Error: ' + error.error.name[0]);
       }
     });
   }

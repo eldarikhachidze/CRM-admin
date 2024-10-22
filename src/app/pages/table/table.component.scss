@@ -1,6 +1,7 @@
 .table-list {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 20px;
   height: 100%;
 
   .table {
@@ -38,4 +39,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.add-to-pit-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  mat-form-field {
+    width: 100px
+  }
 }

@@ -8,6 +8,34 @@
       <mat-card-header>
         <mat-card-title>{{ item.name }}</mat-card-title>
         <mat-card-subtitle>status</mat-card-subtitle>
+        <div class="add-to-pit-section">
+          <!--          <mat-form-field>-->
+          <!--            <mat-label>Favorite food</mat-label>-->
+          <!--            <mat-select name="food">-->
+          <!--              @for (food of foods; track food) {-->
+          <!--              <mat-option [value]="food.value">{{food.viewValue}}</mat-option>-->
+          <!--              }-->
+          <!--            </mat-select>-->
+          <!--          </mat-form-field>-->
+          <mat-form-field>
+            <mat-label>Hall</mat-label>
+            <mat-select>
+              <mat-option>hall</mat-option>
+
+            </mat-select>
+          </mat-form-field>
+          <ng-container matColumnDef="actions">
+            <td mat-cell *matCellDef="let item">
+              <button mat-button color="primary" *ngIf="!item.id">
+                Assign Hall
+              </button>
+
+              <button mat-button color="warn" *ngIf="item.id">
+                Remove From Hall
+              </button>
+            </td>
+          </ng-container>
+        </div>
       </mat-card-header>
       <mat-card-content>
         <div class="chips-card">
@@ -30,7 +58,7 @@
       <mat-card-footer class="example-card-footer">
         <mat-chip-set aria-label="Actions">
           <mat-chip>
-            <button mat-button color="primary">Edit Table</button>
+            <button mat-button [routerLink]="['/table/edit', item.id]" color="primary">Edit Table</button>
           </mat-chip>
           <mat-chip>
             <button mat-button color="warn" (click)="delete(item.id)">Delete Table</button>

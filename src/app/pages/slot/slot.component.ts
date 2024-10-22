@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {SlotService} from "../../core/services/slot.service";
 import {PitService} from "../../core/services/pit.service";
+import {NotificationService} from "../../core/services/notification.service";
 
 @Component({
   selector: 'app-slot',
@@ -13,7 +14,8 @@ export class SlotComponent implements OnInit {
   selectedHall: { [key: number]: number } = {};  // Track sel
   constructor(
     private slotService: SlotService,
-    private pitService: PitService
+    private pitService: PitService,
+    private notificationService: NotificationService,
   ) {
   }
 
@@ -25,35 +27,34 @@ export class SlotComponent implements OnInit {
   loadSlots() {
     this.slotService.getSlotMachines().subscribe(data => {
       this.slotData = data;
-      console.log('slotData', this.slotData);
     });
   }
 
   loadHalls() {
     this.pitService.getPits().subscribe(data => {
       this.halls = data;
-      console.log('halls', this.halls);
     });
   }
 
   remove(slotId: number) {
-    this.slotService.removeSlotMachine(slotId).subscribe(response => {
-      console.log('response', response);
-      this.loadSlots();
-    });
+    this.slotService.removeSlotMachine(slotId).subscribe(res => {
+      if (res && res.message) {
+        this.notificationService.showSuccess(res.message);
+        this.loadSlots();
+      }
+    })
   }
 
   assignHall(slotId: number, hallId: number) {
     if (!hallId) return;
     this.slotService.addSlotMachineToHall(slotId, hallId).subscribe(response => {
-      console.log('response', response);
       this.loadSlots();
     });
   }
 
   removeHall(slotId: number) {
     this.slotService.removeSlotMachineToHall(slotId).subscribe(response => {
-      this.loadSlots();  // Reload the slot data to reflect the changes
+      this.loadSlots();
     });
   }
 }

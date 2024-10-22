@@ -19,6 +19,11 @@ export class TableService extends BaseService {
 
   createTable(data: any): Observable<any> {
     return this.post<any>('table/create/', data)
+      .pipe(
+        catchError(error => {
+          return throwError(error)
+        })
+      )
   }
 
   deleteTable(id: number): Observable<Table> {

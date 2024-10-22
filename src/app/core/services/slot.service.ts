@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BaseService} from "./base.service";
-import {Observable} from "rxjs";
+import {catchError, Observable} from "rxjs";
+import {SlotMachine} from "../interfaces/slot";
 
 @Injectable({
   providedIn: 'root'
@@ -15,15 +16,29 @@ export class SlotService extends BaseService {
     return this.get('slot/slot-machines/');
   }
 
-  removeSlotMachineToHall(slotId: number) {
-    return this.put(`slot/remove-slot-from-hall/${slotId}/`);
+  getSlotMachine(id: number): Observable<SlotMachine> {
+    return this.get<SlotMachine>(`slot/slot-machine/${id}/`);
+  }
+
+  updateSlotMachine(id: number, data: any): Observable<any> {
+    return this.put<any>(`slot/slot-machine/${id}/`, data)
+      .pipe(
+        catchError(error => {
+            return error
+          }
+        )
+      )
+  }
+
+  removeSlotMachineToHall(id: number) {
+    return this.put(`slot/remove-slot-from-hall/${id}/`);
   }
 
   addSlotMachineToHall(slotId: number, hallId: number) {
     return this.put(`slot/add-slot-to-hall/${slotId}/${hallId}/`);
   }
 
-  removeSlotMachine(slotId: number) {
-    return this.delete(`slot/delete-slot-machine/${slotId}/`);
+  removeSlotMachine(id: number): Observable<any> {
+    return this.delete<any>(`slot/slot-machine/${id}/`)
   }
 }
