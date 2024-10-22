@@ -9,11 +9,11 @@ import {SlotMachine} from "../interfaces/slot";
 export class SlotService extends BaseService {
 
   createSlotMachine(data: any): Observable<any> {
-    return this.post<any>('slot/slot-machines/', data);
+    return this.post<any>('slot/slot-machine/', data);
   }
 
   getSlotMachines() {
-    return this.get('slot/slot-machines/');
+    return this.get('slot/slot-machine/');
   }
 
   getSlotMachine(id: number): Observable<SlotMachine> {

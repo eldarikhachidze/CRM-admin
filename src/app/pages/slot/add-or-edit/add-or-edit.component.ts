@@ -65,7 +65,7 @@ export class AddOrEditComponent implements OnInit {
           }
         },
         error: (error) => {
-          this.notificationService.showError(error.error.denomination[0]);
+          this.notificationService.showError(error.error.name[0]);
         }
       });
     }

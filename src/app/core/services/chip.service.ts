@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BaseService} from "./base.service";
 import {catchError, Observable, throwError} from "rxjs";
 import {Chip, ChipCreateResponse} from "../interfaces/chip";
@@ -10,12 +10,13 @@ export class ChipService extends BaseService {
 
 
   getChips(): Observable<Chip[]> {
-    return this.get<Chip[]>('chip');
+    return this.get<Chip[]>('chip/');
   }
 
   getChip(id: number): Observable<Chip> {
     return this.get<Chip>(`chip/${id}/`);
   }
+
   createChip(data: any): Observable<any> {
     return this.post<any>('chip/', data)
       .pipe(

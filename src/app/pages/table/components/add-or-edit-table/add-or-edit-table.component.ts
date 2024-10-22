@@ -4,8 +4,8 @@ import {Chip} from "../../../../core/interfaces/chip";
 import {TableService} from "../../../../core/services/table.service";
 import {NotificationService} from "../../../../core/services/notification.service";
 import {ChipService} from "../../../../core/services/chip.service";
-import {OpenFlot} from "../../../../core/interfaces/table";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {of, switchMap} from "rxjs";
 
 @Component({
   selector: 'app-add-or-edit-table',
@@ -15,35 +15,73 @@ import {Router} from "@angular/router";
 export class AddOrEditTableComponent implements OnInit {
   form: FormGroup;
   chipData: Chip[] = [];
+  denominations: number[] = [1, 2.5, 5, 25, 100, 500, 1000, 5000, 10000];
 
   constructor(
     private fb: FormBuilder,
     private tableService: TableService,
     private notificationService: NotificationService,
     private chipService: ChipService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.form = this.fb.group({
+      id: <number | null>(null),
       name: ['', Validators.required],
-      open_flot: this.fb.array([]) // Initialize as a FormArray
+      open_flot: this.fb.array([]) // Initialize as FormArray
     });
   }
 
   ngOnInit(): void {
-    this.getChips();
+    this.getChips(); // Assuming this is where you fetch the chips data
+    this.route.params.pipe(
+      switchMap(params => {
+        if (params['id']) {
+          return this.tableService.getOne(params['id']);
+        }
+        return of(null);
+      })
+    ).subscribe(res => {
+      if (res) {
+        this.form.patchValue({
+          id: res.id,
+          name: res.name
+        });
+
+        const openFlotArray = this.form.get('open_flot') as FormArray;
+        openFlotArray.clear(); // Clear existing entries
+
+        // Populate the FormArray based on fixed denominations
+        this.denominations.forEach(denomination => {
+          const quantity = res.open_flot[denomination] || 0; // Default to 0 if no quantity found
+          openFlotArray.push(this.fb.group({
+            denomination: [{value: denomination, disabled: true}], // Readonly
+            quantity: [quantity, Validators.required]
+          }));
+        });
+      }
+    });
+  }
+
+  get openFlot(): FormArray {
+    return this.form.get('open_flot') as FormArray;
   }
 
   getChips(): void {
     this.chipService.getChips().subscribe(data => {
       this.chipData = data;
-      this.setUpOpenFlotArray(); // Set up FormArray based on chipData
+      this.setUpOpenFlotArray(); // Initialize FormArray based on chipData
     });
   }
 
   setUpOpenFlotArray(): void {
     const openFlotArray = this.form.get('open_flot') as FormArray;
-    this.chipData.forEach(() => {
-      openFlotArray.push(this.fb.control(0, Validators.required)); // Initialize with zero
+    openFlotArray.clear(); // Clear existing controls to avoid duplicates
+    this.chipData.forEach(chip => {
+      openFlotArray.push(this.fb.group({
+        denomination: [{value: chip.denomination, disabled: true}], // Readonly
+        quantity: [0, Validators.required] // Initialize quantity
+      }));
     });
   }
 
@@ -53,26 +91,47 @@ export class AddOrEditTableComponent implements OnInit {
       return;
     }
 
-    const openFlot: number[] = this.form.get('open_flot')?.value; // Get quantities
-    const openFlotObj: OpenFlot = this.chipData.reduce((acc: OpenFlot, chip, index) => {
-      acc[chip.denomination.toString()] = openFlot[index]; // Ensure denomination is a string
+    // Cast to FormArray
+    const openFlotArray = this.form.get('open_flot') as FormArray;
+
+    // Build the open_flot object with quantities directly
+    const openFlotObj = this.chipData.reduce((acc: { [key: string]: number }, chip, index) => {
+      const quantityControl = openFlotArray.at(index).get('quantity'); // Get the quantity control
+
+      // Check if quantityControl is not null and get the value
+      const quantity = quantityControl ? quantityControl.value : 0; // Default to 0 if null
+
+      acc[chip.denomination.toString()] = quantity; // Store quantity directly
       return acc;
-    }, {} as OpenFlot); // Cast the initial value to OpenFlot
+    }, {});
 
     const dataToSend = {
       name: this.form.value.name,
       open_flot: openFlotObj // Pass the formatted object to the backend
     };
-
-    this.tableService.createTable(dataToSend).subscribe({
-      next: (res) => {
-        this.notificationService.showSuccess('Table created successfully!');
-        this.router.navigate(['/table']);
-      },
-      error: (error) => {
-        this.notificationService.showError('Error: ' + error.error.name[0]);
-      }
-    });
+    console.log(this.form.value.id);
+    if (this.form.value.id) {
+      this.tableService.updateTable(this.form.value.id, dataToSend).subscribe({
+        next: (res) => {
+          this.notificationService.showSuccess(res.message);
+          this.router.navigate(['/table']);
+        },
+        error: (error) => {
+          this.notificationService.showError(error.error);
+        }
+      });
+      return;
+    } else {
+      this.tableService.createTable(dataToSend).subscribe({
+        next: (res) => {
+          this.notificationService.showSuccess(res.message);
+          this.router.navigate(['/table']);
+        },
+        error: (error) => {
+          this.notificationService.showError(error.error.name[0]);
+        }
+      });
+    }
   }
 
 

@@ -17,6 +17,7 @@ export class TableService extends BaseService {
       )
   }
 
+
   createTable(data: any): Observable<any> {
     return this.post<any>('table/create/', data)
       .pipe(
@@ -26,7 +27,20 @@ export class TableService extends BaseService {
       )
   }
 
-  deleteTable(id: number): Observable<Table> {
-    return this.delete<Table>(`table/delete/${id}/`)
+  updateTable(id: number, data: any): Observable<any> {
+    return this.put<any>(`table/delete/${id}/`, data)
+      .pipe(
+        catchError(error => {
+          return throwError(error)
+        })
+      )
+  }
+
+  getOne(id: number): Observable<Table> {
+    return this.get<Table>(`table/delete/${id}/`)
+  }
+
+  deleteTable(id: number): Observable<any> {
+    return this.delete<any>(`table/delete/${id}/`)
   }
 }

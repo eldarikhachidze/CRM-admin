@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {TableService} from "../../core/services/table.service";
 import {Table} from "../../core/interfaces/table";
+import {NotificationService} from "../../core/services/notification.service";
 
 @Component({
   selector: 'app-table',
@@ -10,7 +11,10 @@ import {Table} from "../../core/interfaces/table";
 export class TableComponent implements OnInit {
   tableData: Table[] = [];
 
-  constructor(private tableService: TableService) {
+  constructor(
+    private tableService: TableService,
+    private notificationService: NotificationService
+  ) {
   }
 
   ngOnInit() {
@@ -36,8 +40,11 @@ export class TableComponent implements OnInit {
 
 
   delete(id: number) {
-    this.tableService.deleteTable(id).subscribe(() => {
-      this.getTables();
+    this.tableService.deleteTable(id).subscribe((res) => {
+      if (res && res.message) {
+        this.notificationService.showSuccess(res.message);
+        this.getTables();
+      }
     });
   }
 }
