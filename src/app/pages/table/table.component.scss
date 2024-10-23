@@ -5,6 +5,10 @@
   height: 100%;
   margin-bottom: 50px;
 
+  mat-card-header {
+    gap: 15px;
+  }
+
   .table {
     width: 300px;
     display: flex;
@@ -53,6 +57,5 @@
   grid-template-columns: 1fr 1fr;
 
   mat-form-field {
-    width: 100px
   }
 }

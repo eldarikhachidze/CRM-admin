@@ -10,8 +10,6 @@ import {Router} from "@angular/router";
   styleUrls: ['./chip.component.scss']
 })
 export class ChipComponent implements OnInit {
-
-
   chipData: Chip[] = [];
 
   constructor(
@@ -47,8 +45,5 @@ export class ChipComponent implements OnInit {
       }
     });
   }
-
-
-
 
 }

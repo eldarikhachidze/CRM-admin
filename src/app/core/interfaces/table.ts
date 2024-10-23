@@ -6,7 +6,8 @@ export interface Table {
   date_created: string;
   date_edited?: any;
   date_deleted?: any;
-  open_flot: OpenFlot[];
+  open_flot: OpenFlot[]
+  hall?: any;
 
 }
 
@@ -15,3 +16,10 @@ export interface OpenFlot {
   quantity: number;
 }
 
+export interface TableHall {
+  id: number;
+  name: string;
+  created_at: string;
+  updated_at?: any;
+  deleted_at?: any;
+}

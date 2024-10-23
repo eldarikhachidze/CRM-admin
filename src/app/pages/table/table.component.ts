@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TableService} from "../../core/services/table.service";
-import {Table} from "../../core/interfaces/table";
+import {Table, TableHall} from "../../core/interfaces/table";
 import {NotificationService} from "../../core/services/notification.service";
 
 @Component({
@@ -10,6 +10,8 @@ import {NotificationService} from "../../core/services/notification.service";
 })
 export class TableComponent implements OnInit {
   tableData: Table[] = [];
+  hallData: TableHall[] = [];
+  selectedHall: { [key: number]: number } = {};  // Track sel
 
   constructor(
     private tableService: TableService,
@@ -19,6 +21,15 @@ export class TableComponent implements OnInit {
 
   ngOnInit() {
     this.getTables();
+    this.getHall();
+  }
+
+
+  getHall() {
+    this.tableService.getHall().subscribe((data) => {
+      console.log(data);
+      this.hallData = data;
+    });
   }
 
   getTables() {
@@ -41,6 +52,24 @@ export class TableComponent implements OnInit {
 
   delete(id: number) {
     this.tableService.deleteTable(id).subscribe((res) => {
+      if (res && res.message) {
+        this.notificationService.showSuccess(res.message);
+        this.getTables();
+      }
+    });
+  }
+
+  assignHall(id: number, hallId: number) {
+    this.tableService.addSTableToHall(id, hallId).subscribe(res => {
+      if (res && res.message) {
+        this.notificationService.showSuccess(res.message);
+        this.getTables();
+      }
+    });
+  }
+
+  removeHall(id: number) {
+    this.tableService.removeTableFromHall(id).subscribe(res => {
       if (res && res.message) {
         this.notificationService.showSuccess(res.message);
         this.getTables();

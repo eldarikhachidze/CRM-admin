@@ -1,6 +1,9 @@
 <div class="component-header">
   <h1>Tables</h1>
-  <button mat-raised-button color="primary" routerLink="/table/create">Add Table</button>
+  <div>
+    <!--    <button mat-raised-button color="primary" routerLink="/table/hall/create">Add PIT</button>-->
+    <button mat-raised-button color="primary" routerLink="/table/create">Add Table</button>
+  </div>
 </div>
 <div class="table-list">
   <div class="table" *ngFor="let item of tableData">
@@ -17,23 +20,22 @@
           <!--              }-->
           <!--            </mat-select>-->
           <!--          </mat-form-field>-->
-          <mat-form-field>
-            <mat-label>Hall</mat-label>
-            <mat-select>
-              <mat-option>hall</mat-option>
+          <span class="center" *ngIf="item.hall">{{ item.hall }}</span>
 
+          <!-- Select hall if not assigned -->
+          <mat-form-field *ngIf="!item.hall">
+            <mat-select [(ngModel)]="selectedHall[item.id]" placeholder="Hall">
+              <mat-option *ngFor="let hall of hallData" [value]="hall.id">{{ hall.name }}</mat-option>
             </mat-select>
           </mat-form-field>
           <ng-container matColumnDef="actions">
-            <td mat-cell *matCellDef="let item">
-              <button mat-button color="primary" *ngIf="!item.id">
-                Assign Hall
-              </button>
+            <button mat-button color="primary" *ngIf="!item.hall" (click)="assignHall(item.id, selectedHall[item.id])">
+              Assign Hall
+            </button>
 
-              <button mat-button color="warn" *ngIf="item.id">
-                Remove From Hall
-              </button>
-            </td>
+            <button mat-button color="warn" *ngIf="item.hall" (click)="removeHall(item.id)">
+              Remove From Hall
+            </button>
           </ng-container>
         </div>
       </mat-card-header>

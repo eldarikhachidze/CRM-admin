@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BaseService} from "./base.service";
 import {catchError, Observable, throwError} from "rxjs";
-import {Table} from "../interfaces/table";
+import {Table, TableHall} from "../interfaces/table";
 
 @Injectable({
   providedIn: 'root'
@@ -42,5 +42,23 @@ export class TableService extends BaseService {
 
   deleteTable(id: number): Observable<any> {
     return this.delete<any>(`table/delete/${id}/`)
+  }
+
+  getHall(): Observable<TableHall[]> {
+    return this.get<TableHall[]>('table/hall/')
+  }
+
+  addSTableToHall(slotId: number, hallId: number): Observable<any> {
+    return this.put<any>(`table/add-to-hall/${slotId}/${hallId}/`);
+  }
+
+  removeTableFromHall(id: number): Observable<any> {
+    return this.put<any>(`table/remove-from-hall/${id}/`)
+      .pipe(
+        catchError(error => {
+            return throwError(error)
+          }
+        )
+      )
   }
 }
