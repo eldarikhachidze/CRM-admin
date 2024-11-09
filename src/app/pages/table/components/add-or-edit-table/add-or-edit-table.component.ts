@@ -15,7 +15,7 @@ import {of, switchMap} from "rxjs";
 export class AddOrEditTableComponent implements OnInit {
   form: FormGroup;
   chipData: Chip[] = [];
-  denominations: number[] = [1, 2.5, 5, 25, 100, 500, 1000, 5000, 10000];
+  denominations: number[] = [0.5, 1, 2.5, 5, 25, 100, 500, 1000, 5000, 10000, 100000];
 
   constructor(
     private fb: FormBuilder,
