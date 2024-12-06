@@ -31,6 +31,10 @@ const routes: Routes = [
       {
         path: 'table',
         loadChildren: () => import('./pages/table/table.module').then(m => m.TableModule),
+      },
+      {
+        path: 'customer',
+        loadChildren: () => import('./pages/customer/customer.module').then(m => m.CustomerModule),
       }
     ],
   },
